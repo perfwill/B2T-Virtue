@@ -51,9 +51,6 @@ class BBT_Controller extends CI_Controller{
 		
 	}
 
-	public function setupConstants(){
-	}
-
 	public function defineDbTableNames(){
 		define('TBL_BBTERS', 'bbters');
 	}
@@ -87,7 +84,6 @@ class BBT_Controller extends CI_Controller{
 	}
 
 	public function initBBT(){
-		$this->setupConstants();
 		$this->load->database();
 		$this->defineDbTableNames();
         $this->initAcl();

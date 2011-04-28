@@ -14,7 +14,7 @@
 			<?=form_label($this->lang->line('login_remember'), 'remember_chk')?>
 			<?=form_checkbox('remember_chk', 'yes', TRUE)?>
 		</div>
-		<div class='buttons'>
+		<div class='submit'>
 			<?=form_submit('login', $this->lang->line('login'))?>	
 		</div>
 	<?=form_fieldset_close()?>
