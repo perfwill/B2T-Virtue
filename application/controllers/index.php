@@ -24,14 +24,10 @@ class Index extends BBT_Controller {
 	function index(){
 		if ($this->acl->isAllowed($this->role, 'basics')){
 			/*The true BBT*/
-
-			//The logout button
-			echo anchor('index/logout', $this->lang->line('button_logout'));
+			$this->load->page('home');
 		}else{
-			/*The login form and the introduction*/
-
-			//In this version, only the login form is implemented
-			$this->load->view('form_login');	
+			/*The introduction page when not logged in*/
+			$this->load->page('intro');
 		}
 	}
 
