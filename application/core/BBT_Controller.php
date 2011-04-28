@@ -15,6 +15,7 @@
  * Controller Class Extension
  *
  * @package             Cix
+ * @subpackage		Core
  */
 
 class BBT_Controller extends CI_Controller{
