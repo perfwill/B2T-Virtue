@@ -38,14 +38,14 @@ class BBT_Loader extends CI_Loader{
 	 *
 	 * @param string $page
 	 */
-	function page($page, bool $useJQuery){?>
+	function page($page, $useJQuery = true){?>
 		<html>
 		<head>
 			<meta http-equiv="content-type" content="text-html; charset=utf-8">
 			<?php if($useJQuery):?>
-			<script type="text/javascript" 
-			src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js">
-			</script>
+				<script type="text/javascript" 
+					src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js">
+				</script>
 			<?php endif;?>
 			<?php $this->_page_resources($page) ?>
 		</head>

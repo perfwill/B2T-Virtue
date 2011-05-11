@@ -27,7 +27,7 @@ class Index extends BBT_Controller {
 			$this->load->page('home');
 		}else{
 			/*The introduction page when not logged in*/
-			$this->load->page('intro');
+			$this->load->page('intro', false);
 		}
 	}
 
