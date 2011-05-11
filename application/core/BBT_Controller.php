@@ -41,7 +41,7 @@ class BBT_Controller extends CI_Controller{
 			$this->uid = $sessionUid; 
 
 			$this->db->select('username, role');
-			$q = $this->db->get_where(TBL_BBTERS, array('uid' => $this->uid));
+			$q = $this->db->get_where(TBL_BBTERS, array('uid' => $this->uid), 1);
 
 			if ($q->num_rows() == 0) show_error('Something wrong in BBT_Controller.userSetup()');
 			else {

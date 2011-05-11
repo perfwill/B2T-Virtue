@@ -43,7 +43,7 @@ class Index extends BBT_Controller {
 				$password = $this->input->post('password');
 
 				$this->db->select('uid, password');
-				$q = $this->db->get_where(TBL_BBTERS, array('username' => $username));
+				$q = $this->db->get_where(TBL_BBTERS, array('username' => $username), 1);
 				if ($q->num_rows() == 0) {
 					$this->session->set_flashdata('msg', $this->lang->line('login_incorect_username'));
 					redirect('');
