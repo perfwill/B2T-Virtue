@@ -38,10 +38,15 @@ class BBT_Loader extends CI_Loader{
 	 *
 	 * @param string $page
 	 */
-	function page($page){?>
+	function page($page, bool $useJQuery){?>
 		<html>
 		<head>
 			<meta http-equiv="content-type" content="text-html; charset=utf-8">
+			<?php if($useJQuery):?>
+			<script type="text/javascript" 
+			src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js">
+			</script>
+			<?php endif;?>
 			<?php $this->_page_resources($page) ?>
 		</head>
 		<body>
@@ -61,6 +66,7 @@ class BBT_Loader extends CI_Loader{
 		if (file_exists($rsFile)) {
 			include($rsFile);
 			$csses = array();
+			$jses  = array();
 			foreach($elems as $elem){
 				$elemFile = $this->_ci_view_path."{$elem}_load.php";
 				if (file_exists($elemFile))
@@ -70,6 +76,10 @@ class BBT_Loader extends CI_Loader{
 				$filePath =  "{$this->_css_url}{$css}.css";
 				echo "<link rel='stylesheet' type='text/css' href='{$filePath}'/>";
 			} 
+			foreach($jses as $js => $dummy){
+				$filePath = "{$this->_js_url}{$js}.js";
+				echo "<script type='text/javascript' src='{$filePath}'></script>";
+			}
 		}
 	} 
 }
