@@ -22,7 +22,7 @@ class Index extends BBT_Controller {
 	}
 
 	function index(){
-		if ($this->acl->isAllowed($this->role, 'basics')){
+		if ($this->acl->isAllowed($this->auth->role, 'main')){
 			/*The true BBT*/
 			$this->load->page('home');
 		}else{
@@ -41,25 +41,9 @@ class Index extends BBT_Controller {
 			if ($this->form_validation->run()){
 				$username = $this->input->post('username');
 				$password = $this->input->post('password');
+				$remember = ($this->input->post('remember_chk')=='yes')? true : false;
 
-				$this->db->select('uid, password');
-				$q = $this->db->get_where(TBL_BBTERS, array('username' => $username), 1);
-				if ($q->num_rows() == 0) {
-					$this->session->set_flashdata('msg', $this->lang->line('login_incorect_username'));
-					redirect('');
-				}
-				else if ($q->num_rows() == 1) {
-					//verify the password
-					if ($q->row()->password == $password){
-						//User login information is correct 
-						$this->session->set_userdata('uid', $q->row()->uid);
-						$remember = ($this->input->post('remember_chk')=='yes')?true:false;
-						if ($remember) $this->session->set_userdata(
-								'noexpire', 'on');
-						$this->session->set_flashdata('msg', $this->lang->line('login_successful', $username));
-					}else $this->session->set_flashdata('msg', $this->lang->line('login_incorrect_password'));
-					redirect('');
-				}else show_error('Something wrong with the TBL_BBTERS table, username cannot be duplicated');
+				$this->auth->login($username, $password, $remember);
 			}else $this->index();
 		}
 	}

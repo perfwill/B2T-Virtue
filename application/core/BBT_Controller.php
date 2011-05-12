@@ -19,39 +19,13 @@
  */
 
 class BBT_Controller extends CI_Controller{
-	protected $role; 
-	protected $username;
 	protected $acl;
 
 	public function __construct(){
 		parent::__construct();
 		$this->initBBT();
 	}
-
-	public function getRole(){
-		return $this->role;
-	}
 	
-	public function userSetup(){
-		$sessionUid = $this->session->userdata('uid');
-        	if (!$sessionUid){
-	                //The user is not logged in 
-	                $this->role = 'guest';
-		}else{
-			$this->uid = $sessionUid; 
-
-			$this->db->select('username, role');
-			$q = $this->db->get_where(TBL_BBTERS, array('uid' => $this->uid), 1);
-
-			if ($q->num_rows() == 0) show_error('Something wrong in BBT_Controller.userSetup()');
-			else {
-				$this->username = $q->row()->username;
-				$this->role = $q->row()->role;
-			}
-		}
-		
-	}
-
 	public function defineDbTableNames(){
 		define('TBL_BBTERS', 'bbters');
 	}
@@ -64,21 +38,25 @@ class BBT_Controller extends CI_Controller{
 		}
 	}
 
+	public function setMsg($msg){
+		$this->session->set_flashdata('msg', $msg);
+	}
+
 	public function initAcl(){
         	$this->load->library('Zend_Acl');
 
         	$this->acl = new Zend_Acl();
-		$acl =& $this->acl;	
+			$acl =& $this->acl;	
         	$acl->addRole(new Zend_Acl_Role('guest'));
         	$acl->addRole(new Zend_Acl_Role('member'));
 	        $acl->addRole(new Zend_Acl_Role('vip'), 'member');
 	        $acl->addRole(new Zend_Acl_Role('master'));
 
-	        $acl->add(new Zend_Acl_Resource('basics'));
+	        $acl->add(new Zend_Acl_Resource('main'));
 	        $acl->add(new Zend_Acl_Resource('xedit'));
 	        $acl->add(new Zend_Acl_Resource('acp'));        
 
-	        $acl->allow('member', 'basics');
+	        $acl->allow('member', 'main');
 	        $acl->allow('vip', 'xedit');
 	        $acl->allow('vip', 'acp');      
 	        $acl->allow('master');
@@ -88,7 +66,9 @@ class BBT_Controller extends CI_Controller{
 		$this->load->database();
 		$this->defineDbTableNames();
         $this->initAcl();
-		$this->userSetup();
+
+		//Load the Authentication class and initialize user data
+		$this->load->model('Auth', 'auth');
 
 		//Show any messages set by the previous request
 		$this->showMsg();
