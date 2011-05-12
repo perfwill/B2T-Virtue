@@ -1,4 +1,23 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * BBT 
+ *
+ * BBT Vietnamese social network 
+ *
+ * @package            	Main 
+ * @since               Version 2.0
+ * @filesource
+ */
+
+// ------------------------------------------------------------------------
+
+/**
+ * Controller Class Extension
+ *
+ * @package             Main
+ * @subpackage			Processors
+ */
+
 class Auth {
 	private $uid 					= 0;
 	private $username 				= '';
@@ -14,6 +33,9 @@ class Auth {
 	public function getUsername(){return $this->username;}	
 	public function getRole(){return $this->role;}
 
+	/**
+	 * Setup user authentication data
+	 */
 	public function userSetup(){
 		$sessionUid = $this->bbt->session->userdata('uid');
 		if ($sessionUid){
@@ -29,6 +51,13 @@ class Auth {
 		}
 	}
 
+	/**
+	 * Verify user authentication information and log he in
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @param string $remember whether the 'remember' checkbox is checked or not
+	 */
 	public function login($username, $password, $remember){
 		$this->bbt->db->select('uid, password');
 		$q = $this->bbt->db->get_where(TBL_BBTERS, array('username' => $username), 1);
@@ -49,6 +78,9 @@ class Auth {
 		redirect();
 	}
 
+	/*
+	 * Simply logout
+	 */
 	public function logout(){
 		$this->bbt->session->sess_destroy();
 		redirect('');
