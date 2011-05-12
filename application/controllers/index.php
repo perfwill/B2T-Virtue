@@ -21,8 +21,12 @@ class Index extends BBT_Controller {
 		parent::__construct();
 	}
 
+	function _langLoad(){
+		$this->lang->load('auth');
+	}
+
 	function index(){
-		if ($this->acl->isAllowed($this->auth->role, 'main')){
+		if ($this->acl->isAllowed($this->auth->getRole(), 'main')){
 			/*The true BBT*/
 			$this->load->page('home');
 		}else{
@@ -49,7 +53,6 @@ class Index extends BBT_Controller {
 	}
 
 	function logout(){
-		$this->session->sess_destroy();
-		redirect('');
+		$this->auth->logout();
 	}
 }

@@ -25,6 +25,8 @@ class BBT_Controller extends CI_Controller{
 		parent::__construct();
 		$this->initBBT();
 	}
+
+	public function _langLoad(){}
 	
 	public function defineDbTableNames(){
 		define('TBL_BBTERS', 'bbters');
@@ -69,6 +71,9 @@ class BBT_Controller extends CI_Controller{
 
 		//Load the Authentication class and initialize user data
 		$this->load->model('Auth', 'auth');
+
+		//Load language files
+		$this->_langLoad();
 
 		//Show any messages set by the previous request
 		$this->showMsg();
