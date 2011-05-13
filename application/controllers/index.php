@@ -37,8 +37,8 @@ class Index extends BBT_Controller {
 
 	function login(){
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('username', $this->lang->line('login_username'), 'required');
-		$this->form_validation->set_rules('password', $this->lang->line('login_password'), 'required');
+		$this->form_validation->set_rules('username', 'lang:login_username', 'required');
+		$this->form_validation->set_rules('password', 'lang:login_password', 'required');
 		$this->form_validation->set_error_delimiters('<em>','</em>');
 		//Process the form
 		if ($this->input->post('login')) {
