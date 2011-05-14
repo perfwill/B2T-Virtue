@@ -4,8 +4,7 @@
  *
  * BBT Vietnamese social network 
  *
- * @package             Cix
- * @since               Version 2.0
+ * @since               Project start
  * @filesource
  */
 
@@ -13,9 +12,6 @@
 
 /**
  * Loader class extension 
- *
- * @package 		Cix
- * @subpackage 		Core
  */
 class BBT_Loader extends CI_Loader{
 	private $ci;

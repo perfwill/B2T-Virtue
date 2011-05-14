@@ -4,8 +4,7 @@
  *
  * BBT Vietnamese social network 
  *
- * @package             Index
- * @since               Version 2.0
+ * @since               Project start
  * @filesource
  */
 
@@ -14,7 +13,7 @@
 /**
  * Index Controller
  *
- * @package             Index
+ * This class handles the home and the introduction page
  */
 class Index extends BBT_Controller {
 	function __construct(){
@@ -26,7 +25,7 @@ class Index extends BBT_Controller {
 	}
 
 	function index(){
-		if ($this->acl->isAllowed($this->auth->getRole(), 'main')){
+		if ($this->acl->isAllowed($this->auth->role(), 'main')){
 			/*The true BBT*/
 			$this->load->page('home');
 		}else{

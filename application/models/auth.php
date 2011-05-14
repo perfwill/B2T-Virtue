@@ -4,18 +4,16 @@
  *
  * BBT Vietnamese social network 
  *
- * @package            	Main 
- * @since               Version 2.0
+ * @since               Version 0.1.4
  * @filesource
  */
 
 // ------------------------------------------------------------------------
 
 /**
- * Controller Class Extension
+ * Authentication class
  *
- * @package             Main
- * @subpackage			Processors
+ * This class handles user authentication information, login and logout
  */
 
 class Auth {
@@ -29,9 +27,9 @@ class Auth {
 		$this->userSetup();
 	}
 
-	public function getUid(){return $this->uid;}
-	public function getUsername(){return $this->username;}	
-	public function getRole(){return $this->role;}
+	public function uid(){return $this->uid;}
+	public function username(){return $this->username;}	
+	public function role(){return $this->role;}
 
 	/**
 	 * Setup user authentication data
@@ -42,7 +40,7 @@ class Auth {
 			$this->uid = $sessionUid; 
 
 			$this->bbt->db->select('username, role');
-			$q = $this->bbt->db->get_where(TBL_BBTERS, array('uid' => $this->uid), 1);
+			$q = $this->bbt->db->get_where(TBL_MEMBER, array('uid' => $this->uid), 1);
 			if ($q->num_rows() == 0) show_error('Something wrong in BBT_Controller.userSetup()');
 			else {
 				$this->username = $q->row()->username;
@@ -60,9 +58,9 @@ class Auth {
 	 */
 	public function login($username, $password, $remember){
 		$this->bbt->db->select('uid, password');
-		$q = $this->bbt->db->get_where(TBL_BBTERS, array('username' => $username), 1);
+		$q = $this->bbt->db->get_where(TBL_MEMBER, array('username' => $username), 1);
 		if ($q->num_rows() == 0) {
-			$this->bbt->setMsg($this->bbt->lang->line('login_incorrect_username'));
+			set_msg($this->bbt->lang->line('login_incorrect_username'));
 		}
 		else if ($q->num_rows() == 1) {
 			//verify the password
@@ -70,8 +68,8 @@ class Auth {
 				//User login information is correct 
 				$this->bbt->session->set_userdata('uid', $q->row()->uid);
 				if ($remember) $this->bbt->session->set_userdata('noexpire', 'on');
-				$this->bbt->setMsg($this->bbt->lang->line('login_successful', $username));
-			}else $this->bbt->setMsg($this->bbt->lang->line('login_incorrect_password'));
+				set_msg($this->bbt->lang->line('login_successful', $username));
+			}else set_msg($this->bbt->lang->line('login_incorrect_password'));
 		}
 		else show_error('Something wrong with the TBL_BBTERS table, username cannot be duplicated');
 

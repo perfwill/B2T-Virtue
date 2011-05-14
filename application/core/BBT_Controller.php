@@ -4,8 +4,7 @@
  *
  * BBT Vietnamese social network 
  *
- * @package             Cix
- * @since               Version 2.0
+ * @since               Project start
  * @filesource
  */
 
@@ -14,8 +13,7 @@
 /**
  * Controller Class Extension
  *
- * @package             Cix
- * @subpackage		Core
+ * This class extends the default CodeIgniter's core Controller class
  */
 
 class BBT_Controller extends CI_Controller{
@@ -29,19 +27,7 @@ class BBT_Controller extends CI_Controller{
 	public function _langLoad(){}
 	
 	public function defineDbTableNames(){
-		define('TBL_BBTERS', 'bbters');
-	}
-
-	public function showMsg(){
-		if ($this->session->flashdata('msg')){
-			echo "<div id='msgbox' class='msgbox'>";
-			echo $this->session->flashdata('msg');
-			echo "</div>";
-		}
-	}
-
-	public function setMsg($msg){
-		$this->session->set_flashdata('msg', $msg);
+		define('TBL_MEMBER', 'member');
 	}
 
 	public function initAcl(){
@@ -65,17 +51,22 @@ class BBT_Controller extends CI_Controller{
 	}
 
 	public function initBBT(){
+		//Connect to the database
 		$this->load->database();
+
+		//Define database table name constants
 		$this->defineDbTableNames();
+
+		//Build the Access Control List (ACL)
         $this->initAcl();
 
-		//Load the Authentication class and initialize user data
+		//Load the authentication class and initialize user data
 		$this->load->model('Auth', 'auth');
 
 		//Load language files
 		$this->_langLoad();
 
 		//Show any messages set by the previous request
-		$this->showMsg();
+		show_msg();
 	}
 }
