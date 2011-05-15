@@ -23,10 +23,9 @@ class BBT_Loader extends CI_Loader{
 	public function __construct(){
 		parent::__construct();
 		$this->ci =& get_instance();
-		$this->_site_url = get_instance()->config->site_url();
-		$this->_view_url = $this->_site_url.'/views/';
-		$this->_css_url = $this->_view_url.'css/';
-		$this->_js_url = $this->_view_url.'js/';
+		$this->_site_url = $this->ci->config->site_url();
+		$this->_css_url = $this->ci->config->slash_item('base_url').'css/';
+		$this->_js_url = $this->ci->config->slash_item('base_url').'js/';
 	}
 
 	/**
@@ -34,7 +33,7 @@ class BBT_Loader extends CI_Loader{
 	 *
 	 * @param string $page
 	 */
-	function page($page, $useJQuery = true){?>
+	function page($page, $useJQuery = true, $data = array()){?>
 		<html>
 		<head>
 			<meta http-equiv="content-type" content="text-html; charset=utf-8">
@@ -46,7 +45,7 @@ class BBT_Loader extends CI_Loader{
 			<?php $this->_page_resources($page) ?>
 		</head>
 		<body>
-			<?php $this->ci->load->view("page_{$page}") ?>
+			<?php $this->ci->load->view("page_{$page}", $data) ?>
 		</body>
 		</html>
 	<?php
@@ -60,10 +59,10 @@ class BBT_Loader extends CI_Loader{
 	function _page_resources($page){
 		$rsFile = $this->_ci_view_path."page_{$page}_load.php";
 		if (file_exists($rsFile)) {
-			include($rsFile);
 			$csses = array();
 			$jses  = array();
-			foreach($elems as $elem){
+			include($rsFile);
+			if (isset($elems)) foreach($elems as $elem){
 				$elemFile = $this->_ci_view_path."{$elem}_load.php";
 				if (file_exists($elemFile))
 					include($elemFile); 

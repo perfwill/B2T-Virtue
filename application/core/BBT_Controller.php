@@ -28,6 +28,11 @@ class BBT_Controller extends CI_Controller{
 	
 	public function defineDbTableNames(){
 		define('TBL_MEMBER', 'member');
+		define('TBL_POST', 'post');
+	}
+
+	public function isAllowed($resource = 'main'){
+		return $this->acl->isAllowed($this->auth->role(), $resource);
 	}
 
 	public function initAcl(){
@@ -61,7 +66,7 @@ class BBT_Controller extends CI_Controller{
         $this->initAcl();
 
 		//Load the authentication class and initialize user data
-		$this->load->model('Auth', 'auth');
+		$this->load->model('Auth_model', 'auth');
 
 		//Load language files
 		$this->_langLoad();

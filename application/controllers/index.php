@@ -25,7 +25,7 @@ class Index extends BBT_Controller {
 	}
 
 	function index(){
-		if ($this->acl->isAllowed($this->auth->role(), 'main')){
+		if ($this->isAllowed()){
 			/*The true BBT*/
 			$this->load->page('home');
 		}else{

@@ -16,7 +16,7 @@
  * This class handles user authentication information, login and logout
  */
 
-class Auth {
+class Auth_model {
 	private $uid 					= 0;
 	private $username 				= '';
 	private $role 					= 'guest';
@@ -73,7 +73,7 @@ class Auth {
 		}
 		else show_error('Something wrong with the TBL_BBTERS table, username cannot be duplicated');
 
-		redirect();
+		redirect('index');
 	}
 
 	/*
@@ -81,6 +81,6 @@ class Auth {
 	 */
 	public function logout(){
 		$this->bbt->session->sess_destroy();
-		redirect('');
+		redirect('index');
 	}
 }

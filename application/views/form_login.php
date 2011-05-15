@@ -1,5 +1,5 @@
 <?=validation_errors()?>
-<div id='login-form' class='login-form'> 
+<div id='form-login' class='form-login'> 
 <?=form_open('index/login')?>
 	<?=form_fieldset('')?>
 		<div class='textfield'>
