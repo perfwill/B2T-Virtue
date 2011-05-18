@@ -52,7 +52,7 @@ abstract class Ab_Post_Model {
 			$this->title = $result->title;
 			$this->content = $result->content;
 			$this->author = $result->author;
-		} else redirect('error/show/post_not_found'); 
+		} else redirect('msg/show/post_not_found'); 
 	}
 
 	/**

@@ -51,6 +51,10 @@ class Index extends BBT_Controller {
 		}
 	}
 
+	function loginPage(){
+		$this->load->page('login');
+	}
+
 	function logout(){
 		$this->auth->logout();
 	}

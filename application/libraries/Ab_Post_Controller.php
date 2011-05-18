@@ -11,7 +11,7 @@ abstract class Ab_Post_Controller extends BBT_Controller{
 	public function __construct(){
 		parent::__construct();
 
-		if (!$this->isAllowed()) redirect('index');
+		if (!$this->isAllowed()) redirect('msg/show/login_required');
 
 		$this->typeName = $this->_typeName();
 		$this->modelName = "{$this->typeName}_model";
