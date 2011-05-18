@@ -5,24 +5,22 @@
 		<div class='textfield'>
 			<?=form_label($this->lang->line('post_title').': ', 'post_title')?>
 				<?php 
-					$title = isset($title) ? $title : '';
 					$data = array(
 						'name' 		=> 'post_title',
 						'id' 		=> 'post_title',
 						'maxlength' => 80,
 						'size' 		=> 60,
-						'value' 	=> $title
+						'value' 	=> $post['title']
 					);
 					echo form_input($data);
 				?>
 		</div>	
 		<div class='textareafield'>
 				<?php 
-					$content = isset($content) ? $content : '';
 					$data = array(
 						'name' 		=> 'post_content',
 						'id' 		=> 'post_content',
-						'value' 	=> $content
+						'value' 	=> $post['content']
 					);
 					echo form_textarea($data);
 				?>

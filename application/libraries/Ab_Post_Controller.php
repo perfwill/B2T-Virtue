@@ -11,6 +11,8 @@ abstract class Ab_Post_Controller extends BBT_Controller{
 	public function __construct(){
 		parent::__construct();
 
+		if (!$this->isAllowed()) redirect('index');
+
 		$this->typeName = $this->_typeName();
 		$this->modelName = "{$this->typeName}_model";
 		$this->view_editForm = "form_{$this->typeName}_edit";
@@ -27,13 +29,30 @@ abstract class Ab_Post_Controller extends BBT_Controller{
 	}
 
 	final public function create(){
-		if (!$this->isAllowed()) redirect('index');
+		$this->edit(0);
+	}
+
+	final public function isEditAllowed(){
+		if ($this->isAllowed('xedit')) return true;
+		else {
+			if ($this->auth->uid() == $this->post->author) return true;
+			else return false;
+		}
+	}
+
+	final public function edit($id = 0){
+		if ($id != 0) {
+			$this->post->fetch($id);
+			if (!$this->isEditAllowed()) redirect('index');
+		}
 
 		$data = array(
 			'introMsg' => $this->introMsg,
-			'view_editForm' => $this->view_editForm
+			'view_editForm' => $this->view_editForm,
+			'post' => $this->post->data()
 		);
-		$this->load->page('post_create', true, $data);
+		$this->load->page('post_edit', true, $data);
+
 	}
 
 	final protected function receiveInput(){

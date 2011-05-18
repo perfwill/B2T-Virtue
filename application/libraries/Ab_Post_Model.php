@@ -39,6 +39,8 @@ abstract class Ab_Post_Model {
 
 	/**
 	 * Get post information from database
+	 *
+	 * @parameter int $id
 	 */
 	public function fetch($id){
 		$this->db->select('time, author, title, content');
@@ -50,7 +52,7 @@ abstract class Ab_Post_Model {
 			$this->title = $result->title;
 			$this->content = $result->content;
 			$this->author = $result->author;
-		}
+		} else redirect('error/show/post_not_found'); 
 	}
 
 	/**
