@@ -1,10 +1,13 @@
 <?php
 abstract class Ab_Post_Controller extends BBT_Controller{
-	protected $typeName;
+	protected $typeName 		= '';
 
-	private $modelName;
-	private $view_editForm;
-	private $introMsg;
+	private $modelName 			= '';
+	private $view_editForm		= '';
+	private $introMsg			= '';
+
+	//List of commands (edit, report abuse, thank...) near the title (topCmds) and at bottom (bottomCmds)
+	protected $topCmds, $bottomCmds; 
 
 	abstract protected function _typeName();	
 
@@ -25,7 +28,34 @@ abstract class Ab_Post_Controller extends BBT_Controller{
 
 	final public function display($id = 0){
 		$this->post->fetch($id);
-		$this->load->page('post_display', true, $this->post->data());
+
+		$this->setupTopCmds();
+		$this->setupBottomCmds();
+
+		$data = array(
+				'post' 			=> $this->post->data(),
+				'topCmds' 		=> $this->topCmds,
+				'bottomCmds'	=> $this->bottomCmds,
+			);
+
+		$this->load->page('post_display', true, $data);
+	}
+
+	protected function setupTopCmds(){
+		$this->topCmds = new PostCmdBar();
+		$this->topCmds->add('report', "index/report/{$this->post->id}");
+		if ($this->isEditAllowed()) {
+			$this->topCmds->add('edit', "{$this->typeName}/edit/{$this->post->id}");
+		}
+		if ($this->isAllowed('xedit'))
+			$this->topCmds->add('delete', "{$this->typeName}/delete/{$this->post->id}");
+	}
+
+	protected function setupBottomCmds(){
+		$this->bottomCmds = new PostCmdBar();
+		$this->bottomCmds->add('response', "reply/{$this->post->id}");
+		$this->bottomCmds->add('thank', "thank/{$this->post->id}");
+		$this->bottomCmds->add('share', "share/{$this->post->id}");
 	}
 
 	final public function create(){

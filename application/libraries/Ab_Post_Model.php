@@ -24,7 +24,8 @@ abstract class Ab_Post_Model {
 	private $content			= '';
 
 	private $db				= null;
-
+	
+	
 	public function __construct($id = 0){
 		$this->db =& get_instance()->db;
 	}
@@ -52,6 +53,7 @@ abstract class Ab_Post_Model {
 			$this->title = $result->title;
 			$this->content = $result->content;
 			$this->author = $result->author;
+			$this->id = $id;
 		} else redirect('msg/show/post_not_found'); 
 	}
 
